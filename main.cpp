@@ -1,31 +1,30 @@
 #include <fstream>
+#include <functional>
 #include <iostream>
+#include <map>
 
 using namespace std;
 
+// Function declarations
+int year2022_day1_puzzle1();
+
+// Function registry
+map<string, function<int()>> functions = {
+    {"2022-1-1", year2022_day1_puzzle1}
+};
+
 int main() {
-    ifstream f("ressources/day1.txt");
-
-    if (!f.is_open()) {
-        cerr << "Error opening file" << endl;
-        return 1;
+    int year, day, puzzle;
+    cout << "Enter which year: ";
+    cin >> year;
+    cout << "Enter which day: ";
+    cin >> day;
+    cout << "Enter which puzzle (1 or 2): ";
+    cin >> puzzle;
+    if (const string key = to_string(year) + "-" + to_string(day) + "-" + to_string(puzzle); functions.contains(key)) {
+        std::cout << "Running Year " << year << " Day " << day << " Part " << puzzle << "...\n";
+        return functions[key](); // Call the corresponding function
     }
-    cout << "File successfully opened!" << endl;
-
-    string s;
-    int maxCalories = 0;
-    int currentCalories = 0;
-    while(getline(f, s)) {
-        if (s.empty()) {
-            if (currentCalories > maxCalories) maxCalories = currentCalories;
-            currentCalories = 0;
-        } else {
-            currentCalories += stoi(s);
-        }
-    }
-
-    cout << maxCalories << endl;
-
-    f.close();
-    return 0;
+    std::cout << "Invalid day or part. Please check your input.\n";
+    return 1;
 }
