@@ -15,7 +15,7 @@ int year2022_day1_puzzle1() {
     string s;
     int maxCalories = 0;
     int currentCalories = 0;
-    while(getline(f, s)) {
+    while (getline(f, s)) {
         if (s.empty()) {
             if (currentCalories > maxCalories) maxCalories = currentCalories;
             currentCalories = 0;
