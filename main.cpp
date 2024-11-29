@@ -7,10 +7,12 @@ using namespace std;
 
 // Function declarations
 int year2022_day1_puzzle1();
+int year2022_day1_puzzle2();
 
 // Function registry
 map<string, function<int()>> functions = {
-    {"2022-1-1", year2022_day1_puzzle1}
+    {"2022-1-1", year2022_day1_puzzle1},
+    {"2022-1-2", year2022_day1_puzzle2}
 };
 
 int main() {
