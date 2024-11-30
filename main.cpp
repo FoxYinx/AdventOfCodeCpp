@@ -12,6 +12,8 @@ int year2022_day2_puzzle1();
 int year2022_day2_puzzle2();
 int year2022_day3_puzzle1();
 int year2022_day3_puzzle2();
+int year2022_day4_puzzle1();
+int year2022_day4_puzzle2();
 
 // Function registry
 map<string, function<int()>> functions = {
@@ -20,7 +22,9 @@ map<string, function<int()>> functions = {
     {"2022-2-1", year2022_day2_puzzle1},
     {"2022-2-2", year2022_day2_puzzle2},
     {"2022-3-1", year2022_day3_puzzle1},
-    {"2022-3-2", year2022_day3_puzzle2}
+    {"2022-3-2", year2022_day3_puzzle2},
+    {"2022-4-1", year2022_day4_puzzle1},
+    {"2022-4-2", year2022_day4_puzzle2}
 };
 
 int main() {
