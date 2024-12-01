@@ -4,7 +4,7 @@
 using namespace std;
 
 int year2022_day2_puzzle1() {
-    ifstream f("ressources/day2.txt");
+    ifstream f("ressources/Year2022/day2.txt");
 
     if (!f.is_open()) {
         cerr << "Error opening file" << endl;
