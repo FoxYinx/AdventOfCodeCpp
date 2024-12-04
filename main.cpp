@@ -6,6 +6,8 @@
 using namespace std;
 
 // Function declarations
+int year2019_day1_puzzle1();
+int year2019_day1_puzzle2();
 int year2022_day1_puzzle1();
 int year2022_day1_puzzle2();
 int year2022_day2_puzzle1();
@@ -25,6 +27,8 @@ int year2024_day4_puzzle2();
 
 // Function registry
 map<string, function<int()> > functions = {
+    {"2019-1-1", year2019_day1_puzzle1},
+    {"2019-1-2", year2019_day1_puzzle2},
     {"2022-1-1", year2022_day1_puzzle1},
     {"2022-1-2", year2022_day1_puzzle2},
     {"2022-2-1", year2022_day2_puzzle1},
