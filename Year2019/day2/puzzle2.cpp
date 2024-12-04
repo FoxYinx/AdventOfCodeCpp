@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include "intcode.h"
+#include "../intcode.h"
 
 #define SIZE 100
 #define TARGET 19690720

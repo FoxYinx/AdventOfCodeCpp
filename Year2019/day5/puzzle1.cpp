@@ -6,8 +6,8 @@
 
 using namespace std;
 
-int year2019_day2_puzzle1() {
-    ifstream f("ressources/Year2019/day2.txt");
+int year2019_day5_puzzle1() {
+    ifstream f("ressources/Year2019/day5.txt");
 
     if (!f.is_open()) {
         cerr << "Error opening file" << endl;
@@ -25,17 +25,14 @@ int year2019_day2_puzzle1() {
         }
     }
 
-    program[1] = 12;
-    program[2] = 2;
-
     int pointer = 0;
     while (true) {
         int instruction = program[pointer];
         if (instruction == 99) break;
-        processInstruction(pointer, instruction, program);
-        pointer += 4;
+        int increase = processInstruction(pointer, instruction, program);
+        if (increase == 0) return 1;
+        pointer += increase;
     }
 
-    cout << program[0] << endl;
     return 0;
 }

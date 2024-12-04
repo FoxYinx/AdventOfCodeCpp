@@ -5,6 +5,6 @@
 
 using namespace std;
 
-void processInstruction(int pointer, int instruction, vector<int>& program);
+int processInstruction(int pointer, int instruction, vector<int>& program);
 
 #endif //ADVENTOFCODE_INTCODE_H
