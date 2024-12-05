@@ -1,16 +1,17 @@
 #include <iostream>
 #include <vector>
-#include "intcode.h"
+#include "intcodeLeMauvais.h"
 
 using namespace std;
 
 
-Intcode::Intcode() {
+IntcodeLeMauvais::IntcodeLeMauvais() {
     this->pointer = 0;
+    this->io = 0;
     this->stuck = false;
 }
 
-void Intcode::processInstruction(int instruction, vector<int>& program) {
+void IntcodeLeMauvais::processInstruction(int instruction, vector<int>& program) {
 
     int realInstruction = instruction % 100;
 
@@ -39,15 +40,14 @@ void Intcode::processInstruction(int instruction, vector<int>& program) {
             this->pointer += 4;
             break;
         case 3:
-            cout << "input: ";
-            cin >> program[program[pointer + 1]];
+            program[program[pointer + 1]] = io;
             this->pointer += 2;
             break;
         case 4:
             if ((instruction / 100) % 10 == 1) {
-                cout << "output: " << program[pointer + 1] << endl;
+                io = program[pointer + 1];
             } else {
-                cout << "output: " << program[program[pointer + 1]] << endl;
+                io = program[program[pointer + 1]];
             }
             this->pointer += 2;
             break;
@@ -96,7 +96,7 @@ void Intcode::processInstruction(int instruction, vector<int>& program) {
     }
 }
 
-void Intcode::reset() {
+void IntcodeLeMauvais::reset() {
     this->pointer = 0;
     this->stuck = false;
 }
