@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include "../intcode.h"
 
 #define SIZE 100
@@ -34,12 +35,11 @@ int year2019_day2_puzzle2() {
             program[1] = noun;
             program[2] = verb;
 
-            int pointer = 0;
+            Intcode intcode;
             while (true) {
-                int instruction = program[pointer];
+                int instruction = program[intcode.pointer];
                 if (instruction == 99) break;
-                processInstruction(pointer, instruction, program);
-                pointer += 4;
+                intcode.processInstruction(instruction, program);
             }
             if (program[0] == TARGET) {
                 cout << 100 * noun + verb << endl;

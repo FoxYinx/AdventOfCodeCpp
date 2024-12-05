@@ -1,10 +1,12 @@
 #ifndef ADVENTOFCODE_INTCODE_H
 #define ADVENTOFCODE_INTCODE_H
 
-#include <vector>
+class Intcode {
+public:
+    int pointer;
 
-using namespace std;
+    Intcode();
+    void processInstruction(int instruction, std::vector<int>& program);
+};
 
-int processInstruction(int pointer, int instruction, vector<int>& program);
-
-#endif //ADVENTOFCODE_INTCODE_H
+#endif

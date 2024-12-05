@@ -25,13 +25,11 @@ int year2019_day5_puzzle1() {
         }
     }
 
-    int pointer = 0;
+    Intcode intcode;
     while (true) {
-        int instruction = program[pointer];
+        int instruction = program[intcode.pointer];
         if (instruction == 99) break;
-        int increase = processInstruction(pointer, instruction, program);
-        if (increase == 0) return 1;
-        pointer += increase;
+        intcode.processInstruction(instruction, program);
     }
 
     return 0;
