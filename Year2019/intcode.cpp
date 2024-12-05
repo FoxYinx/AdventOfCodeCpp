@@ -7,6 +7,7 @@ using namespace std;
 
 Intcode::Intcode() {
     this->pointer = 0;
+    this->stuck = false;
 }
 
 void Intcode::processInstruction(int instruction, vector<int>& program) {
@@ -30,6 +31,7 @@ void Intcode::processInstruction(int instruction, vector<int>& program) {
             break;
         default:
             cerr << "Unknown opcode: " << instruction << endl;
+            stuck = true;
             break;
     }
 }

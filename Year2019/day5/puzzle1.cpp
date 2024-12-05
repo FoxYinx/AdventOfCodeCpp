@@ -30,6 +30,7 @@ int year2019_day5_puzzle1() {
         int instruction = program[intcode.pointer];
         if (instruction == 99) break;
         intcode.processInstruction(instruction, program);
+        if (intcode.stuck) return 1;
     }
 
     return 0;

@@ -4,6 +4,7 @@
 class Intcode {
 public:
     int pointer;
+    bool stuck;
 
     Intcode();
     void processInstruction(int instruction, std::vector<int>& program);
