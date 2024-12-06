@@ -3,7 +3,7 @@
 
 #define SIZE 130
 
-class GardMap {
+class GuardMap {
 public:
     enum Direction {
         UP,
@@ -12,7 +12,7 @@ public:
         LEFT
     };
 
-    static const int size = SIZE;
+    static constexpr int size = SIZE;
 
     char map[size][size]{};
     bool hasBeenThere[size][size]{};
@@ -20,7 +20,7 @@ public:
     int gardX;
     int gardY;
 
-    GardMap();
+    GuardMap();
     [[nodiscard]] bool willBeOutside() const;
     bool move();
     int allCases();

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "gardMap.h"
+#include "guardMap.h"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ int year2024_day6_puzzle1() {
     cout << "File successfully opened!" << endl;
 
     string s;
-    GardMap map;
+    GuardMap map;
     int line = 0;
     while (getline(f, s)) {
         for (int i = 0; i < s.length(); i++) {
@@ -28,7 +28,7 @@ int year2024_day6_puzzle1() {
         line++;
     }
 
-    while (map.move());
+    while (map.move()) {}
 
     cout << map.allCases() << endl;
     return 0;

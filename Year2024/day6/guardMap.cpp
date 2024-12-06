@@ -1,7 +1,7 @@
-#include "gardMap.h"
+#include "guardMap.h"
 
 
-GardMap::GardMap() {
+GuardMap::GuardMap() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             this->map[i][j] = '.';
@@ -14,7 +14,7 @@ GardMap::GardMap() {
 }
 
 
-bool GardMap::willBeOutside() const {
+bool GuardMap::willBeOutside() const {
     switch (direction) {
         case UP:
             return gardY == 0;
@@ -25,9 +25,10 @@ bool GardMap::willBeOutside() const {
         case LEFT:
             return gardX == 0;
     }
+    return true;
 }
 
-bool GardMap::move() {
+bool GuardMap::move() {
     if (willBeOutside()) return false;
     switch (direction) {
         case UP:
@@ -63,9 +64,10 @@ bool GardMap::move() {
             }
             return true;
     }
+    return false;
 }
 
-int GardMap::allCases() {
+int GuardMap::allCases() {
     int nb = 0;
     for (auto & i : hasBeenThere) {
         for (bool j : i) {
@@ -75,10 +77,10 @@ int GardMap::allCases() {
     return nb;
 }
 
-void GardMap::reset(int x, int y) {
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            hasBeenThere[i][j] = false;
+void GuardMap::reset(const int x, const int y) {
+    for (auto & i : hasBeenThere) {
+        for (bool & j : i) {
+            j = false;
         }
     }
     gardX = x;
