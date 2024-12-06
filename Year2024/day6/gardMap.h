@@ -24,6 +24,7 @@ public:
     [[nodiscard]] bool willBeOutside() const;
     bool move();
     int allCases();
+    void reset(int x, int y);
 };
 
 

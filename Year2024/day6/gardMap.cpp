@@ -75,3 +75,14 @@ int GardMap::allCases() {
     return nb;
 }
 
+void GardMap::reset(int x, int y) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            hasBeenThere[i][j] = false;
+        }
+    }
+    gardX = x;
+    gardY = y;
+    direction = UP;
+}
+
