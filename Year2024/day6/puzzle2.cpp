@@ -33,8 +33,8 @@ int year2024_day6_puzzle2() {
     }
 
     int nbLoop = 0;
-    for (auto & i : map.map) {
-        for (char & j : i) {
+    for (auto &i: map.map) {
+        for (char &j: i) {
             if (j == '#' || j == '^') continue;
             j = '#';
             for (int k = 0; k < GuardMap::size * GuardMap::size; k++) {

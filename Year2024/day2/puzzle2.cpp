@@ -32,7 +32,7 @@ int year2024_day2_puzzle2() {
             safeA = true;
             safeD = true;
             compare = "";
-            for (const string& value : reduced) {
+            for (const string &value: reduced) {
                 if (compare.empty()) {
                     compare = value;
                     continue;

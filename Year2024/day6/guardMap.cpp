@@ -32,7 +32,7 @@ bool GuardMap::move() {
     if (willBeOutside()) return false;
     switch (direction) {
         case UP:
-            if (map[gardY-1][gardX] == '#') {
+            if (map[gardY - 1][gardX] == '#') {
                 direction = RIGHT;
             } else {
                 gardY--;
@@ -40,7 +40,7 @@ bool GuardMap::move() {
             }
             return true;
         case RIGHT:
-            if (map[gardY][gardX+1] == '#') {
+            if (map[gardY][gardX + 1] == '#') {
                 direction = DOWN;
             } else {
                 gardX++;
@@ -48,7 +48,7 @@ bool GuardMap::move() {
             }
             return true;
         case DOWN:
-            if (map[gardY+1][gardX] == '#') {
+            if (map[gardY + 1][gardX] == '#') {
                 direction = LEFT;
             } else {
                 gardY++;
@@ -56,7 +56,7 @@ bool GuardMap::move() {
             }
             return true;
         case LEFT:
-            if (map[gardY][gardX-1] == '#') {
+            if (map[gardY][gardX - 1] == '#') {
                 direction = UP;
             } else {
                 gardX--;
@@ -69,8 +69,8 @@ bool GuardMap::move() {
 
 int GuardMap::allCases() {
     int nb = 0;
-    for (auto & i : hasBeenThere) {
-        for (bool j : i) {
+    for (auto &i: hasBeenThere) {
+        for (bool j: i) {
             if (j) nb++;
         }
     }
@@ -78,8 +78,8 @@ int GuardMap::allCases() {
 }
 
 void GuardMap::reset(const int x, const int y) {
-    for (auto & i : hasBeenThere) {
-        for (bool & j : i) {
+    for (auto &i: hasBeenThere) {
+        for (bool &j: i) {
             j = false;
         }
     }

@@ -21,9 +21,13 @@ public:
     int gardY;
 
     GuardMap();
+
     [[nodiscard]] bool willBeOutside() const;
+
     bool move();
+
     int allCases();
+
     void reset(int x, int y);
 };
 

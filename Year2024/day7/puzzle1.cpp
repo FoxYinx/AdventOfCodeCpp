@@ -6,7 +6,8 @@
 using namespace std;
 
 vector<vector<char>> getAllCombinations(int k);
-void generateCombinations(vector<vector<char>>& allCombinations, vector<char>& combination, int k, int index);
+
+void generateCombinations(vector<vector<char>> &allCombinations, vector<char> &combination, int k, int index);
 
 int year2024_day7_puzzle1() {
     ifstream f("ressources/Year2024/day7.txt");
@@ -33,9 +34,10 @@ int year2024_day7_puzzle1() {
 
         vector<vector<char>> combinations = getAllCombinations(possibleLongs.size() - 1);
         bool flag = false;
-        for (const auto& combination : combinations) {
+        for (const auto &combination: combinations) {
             for (int i = 0; i < combination.size(); i++) {
-                possibleLongs[i + 1] = (combination[i] == '+') ? possibleLongs[i] + possibleLongs[i + 1] : possibleLongs[i] * possibleLongs[i + 1];
+                possibleLongs[i + 1] = (combination[i] == '+') ? possibleLongs[i] + possibleLongs[i + 1] :
+                                       possibleLongs[i] * possibleLongs[i + 1];
             }
             if (possibleLongs[possibleLongs.size() - 1] == goal) {
                 flag = true;
@@ -58,7 +60,7 @@ vector<vector<char>> getAllCombinations(int k) {
     return allCombinations;
 }
 
-void generateCombinations(vector<vector<char>>& allCombinations, vector<char>& combination, int k, int index) {
+void generateCombinations(vector<vector<char>> &allCombinations, vector<char> &combination, int k, int index) {
     if (index == k) {
         allCombinations.push_back(combination);
         return;

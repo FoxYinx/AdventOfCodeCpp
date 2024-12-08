@@ -25,9 +25,9 @@ int year2024_day1_puzzle2() {
     }
 
     int similarityScore = 0;
-    for (const int leftValue : left) {
+    for (const int leftValue: left) {
         int appearance = 0;
-        for(const int rightValue : right) {
+        for (const int rightValue: right) {
             if (leftValue == rightValue) appearance++;
         }
         similarityScore += leftValue * appearance;
