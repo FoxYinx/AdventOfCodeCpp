@@ -42,7 +42,7 @@ int year2024_day9_puzzle1() {
         if (j == fin) break;
     }
 
-    unsigned long checksum = 0;
+    long long checksum = 0;
     for (int i = 0; i < disk.size(); i++) {
         if (disk[i] != -1) checksum += i * disk[i];
     }
