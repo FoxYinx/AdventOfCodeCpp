@@ -20,17 +20,17 @@ int year2024_day7_puzzle1() {
 
     string s;
     char colon;
-    long totalValid = 0;
+    long long totalValid = 0;
     while (getline(f, s)) {
         stringstream ss(s);
-        long goal;
-        long num;
-        vector<long> possibleLongs;
+        long long goal;
+        long long num;
+        vector<long long> possibleLongs;
         ss >> goal >> colon;
         while (ss >> num) {
             possibleLongs.push_back(num);
         }
-        vector<long> memory(possibleLongs);
+        vector memory(possibleLongs);
 
         vector<vector<char>> combinations = getAllCombinations(possibleLongs.size() - 1);
         bool flag = false;
@@ -42,9 +42,8 @@ int year2024_day7_puzzle1() {
             if (possibleLongs[possibleLongs.size() - 1] == goal) {
                 flag = true;
                 break;
-            } else {
-                possibleLongs = memory;
             }
+            possibleLongs = memory;
         }
         if (flag) totalValid += goal;
     }

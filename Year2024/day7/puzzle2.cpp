@@ -23,17 +23,17 @@ int year2024_day7_puzzle2() {
 
     string s;
     char colon;
-    long totalValid = 0;
+    long long totalValid = 0;
     while (getline(f, s)) {
         stringstream ss(s);
-        long goal;
-        long num;
-        vector<long> possibleLongs;
+        long long goal;
+        long long num;
+        vector<long long> possibleLongs;
         ss >> goal >> colon;
         while (ss >> num) {
             possibleLongs.push_back(num);
         }
-        vector<long> memory(possibleLongs);
+        vector memory(possibleLongs);
 
         vector<vector<char>> combinations = getAllCombinations2(possibleLongs.size() - 1);
         bool flag = false;
@@ -55,9 +55,8 @@ int year2024_day7_puzzle2() {
             if (possibleLongs[possibleLongs.size() - 1] == goal) {
                 flag = true;
                 break;
-            } else {
-                possibleLongs = memory;
             }
+            possibleLongs = memory;
         }
         if (flag) totalValid += goal;
     }
@@ -89,6 +88,6 @@ void generateCombinations2(vector<vector<char>> &allCombinations, vector<char> &
     generateCombinations2(allCombinations, combination, k, index + 1);
 }
 
-unsigned GetNumberOfDigits(unsigned i) {
-    return i > 0 ? (int) log10((double) i) + 1 : 1;
+unsigned GetNumberOfDigits(const unsigned i) {
+    return i > 0 ? static_cast<int>(log10(static_cast<double>(i))) + 1 : 1;
 }
