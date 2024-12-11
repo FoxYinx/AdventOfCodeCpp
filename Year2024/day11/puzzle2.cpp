@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <map>
+#include <array>
 #include "utils.h"
 
 #define ITER 75
@@ -23,41 +24,47 @@ int year2024_day11_puzzle2() {
     string s;
     getline(f, s);
     istringstream iss(s);
-    vector<unsigned long> values;
+    map<unsigned long, array<unsigned long, 2>> memory;
     unsigned long value;
     while (iss >> value) {
-        values.push_back(value);
+        memory.emplace(value, array<unsigned long, 2>{1, 1});
     }
-
-    map<unsigned long, vector<unsigned long>> memory;
-    memory.insert({0, {1}});
 
     for (int j = 0; j < ITER; j++) {
-        for (int i = 0; i < values.size(); i++) {
-            if (memory.contains(values[i])) {
-                if (memory[values[i]].size() == 1) {
-                    values[i] = memory[values[i]][0];
-                } else {
-                    values.insert(values.begin() + i + 1, memory[values[i]][1]);
-                    values[i] = memory[values[i]][0];
-                    i++;
-                }
+        vector<unsigned long> keys;
+        for (auto & it : memory) {
+            keys.push_back(it.first);
+        }
+
+        for (auto& key : keys) {
+            if (key == 0) {
+                memory[1][1] += memory[0][0];
             } else {
-                unsigned int length = GetNumberOfDigits(values[i]);
+                unsigned int length = GetNumberOfDigits(key);
                 if ((length & 1) == 0) {
-                    memory.emplace(values[i], vector<unsigned long>{values[i] / (long) pow(10, length / 2), values[i] % (long) pow(10, length / 2)});
-                    values.insert(values.begin() + i + 1, memory[values[i]][1]);
-                    values[i] = memory[values[i]][0];
-                    i++;
+                    memory[key / (long) pow(10, length / 2)][1] += memory[key][0];
+                    memory[key % (long) pow(10, length / 2)][1] += memory[key][0];
                 } else {
-                    memory.insert({values[i], {values[i] * 2024}});
-                    values[i] = memory[values[i]][0];
+                    memory[key * 2024][1] += memory[key][0];
                 }
             }
+            memory[key][1] -= memory[key][0];
         }
-        cout << "STEP " << j + 1 << " DONE!" << endl;
+
+        vector<unsigned long> toDelete;
+        for (auto& [key, valeur] : memory) {
+            memory[key][0] = memory[key][1];
+            if (memory[key][1] == 0) toDelete.push_back(key);
+        }
+        for (auto remove : toDelete) {
+            memory.erase(remove);
+        }
     }
 
-    cout << values.size() << endl;
+    unsigned long nbStones = 0;
+    for (auto& [key, valeur] : memory) {
+        nbStones += valeur[0];
+    }
+    cout << nbStones << endl;
     return 0;
 }
