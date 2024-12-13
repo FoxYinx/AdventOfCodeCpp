@@ -14,10 +14,10 @@ struct equation {
     double goalY;
 };
 
-int solveEquation(equation& equation);
+int solveEquation(const equation& equation);
 
 int year2024_day13_puzzle1() {
-    ifstream f("ressources/Year2024/test.txt");
+    ifstream f("ressources/Year2024/day13.txt");
 
     if (!f.is_open()) {
         cerr << "Error opening file" << endl;
@@ -45,7 +45,6 @@ int year2024_day13_puzzle1() {
                 field = (field + 1) % 6;
                 if (field == 0) {
                     total += solveEquation(eq);
-                    eq = {};
                 }
             }
             s = sm.suffix();
@@ -56,23 +55,14 @@ int year2024_day13_puzzle1() {
     return 0;
 }
 
-int solveEquation(equation& equation) {
-    double aPresses = 0;
-    double bPresses = 0;
-
-    double da = (double) equation.ax / (double) equation.ay;
-
-    bPresses = (equation.goalX - da * equation.goalY) / (equation.bx - da * equation.by);
-    aPresses = (equation.goalX - bPresses * equation.bx) / equation.ax;
+int solveEquation(const equation& equation) {
+    const double aPresses = (equation.by * equation.goalX - equation.bx * equation.goalY) / (equation.ax * equation.by - equation.ay * equation.bx);
+    const double bPresses = (equation.ax * equation.goalY - equation.ay * equation.goalX) / (equation.ax * equation.by - equation.ay * equation.bx);
 
     if (aPresses > 100 || bPresses > 100 || aPresses < 0 || bPresses < 0) return 0;
 
-    double intpart;
-    if (modf(aPresses, &intpart) != 0.0) return 0;
-    if (modf(bPresses, &intpart) != 0.0) return 0;
+    if (aPresses - static_cast<double>(static_cast<int>(aPresses)) > 0.001 || aPresses - static_cast<double>(static_cast<int>(aPresses)) < -0.001) return 0;
+    if (bPresses - static_cast<double>(static_cast<int>(bPresses)) > 0.001 || bPresses - static_cast<double>(static_cast<int>(bPresses)) < -0.001) return 0;
 
-    cout << "A: " << aPresses << endl;
-    cout << "B: " << bPresses << endl;
-
-    return aPresses * 3 + bPresses;
+    return static_cast<int>(round(aPresses)) * 3 + static_cast<int>(round(bPresses));
 }
