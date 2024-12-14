@@ -2,7 +2,6 @@
 #include <iostream>
 #include <regex>
 #include <vector>
-#include <array>
 #include "utils.h"
 
 #define WIDTH 101
@@ -37,32 +36,32 @@ int year2024_day14_puzzle2() {
         }
     }
 
-    int iterations = 0;
-    string escape;
-    do {
-        iterations++;
+    long maxValue = LONG_MAX;
+    int iter = 0;
+    for (int i = 0; i < 101 * 103; i++) {
         for (auto& [x, y, vx, vy] : robots) {
             x = positive_mod(x + vx, WIDTH);
             y = positive_mod(y + vy, HEIGHT);
         }
-        cout << "Iteration nb " << iterations << ":" << endl;
-
-        array<array<char, WIDTH>, HEIGHT> area = {};
-        for (auto& row : area) {
-            row.fill('.');
-        }
-
-        for (auto rb : robots) {
-            area[rb.y][rb.x] = '#';
-        }
-        for (auto a : area) {
-            for (auto b : a) {
-                cout << b << " ";
+        int firstQuadrant = 0;
+        int secondQuadrant = 0;
+        int thirdQuadrant = 0;
+        int fourthQuadrant = 0;
+        for (const robot rb: robots) {
+            if (rb.x < (WIDTH - 1) / 2) {
+                if (rb.y < (HEIGHT - 1) / 2) firstQuadrant++;
+                if (rb.y > (HEIGHT - 1) / 2) thirdQuadrant++;
+            } else if (rb.x > (WIDTH - 1) / 2) {
+                if (rb.y < (HEIGHT - 1) / 2) secondQuadrant++;
+                if (rb.y > (HEIGHT - 1) / 2) fourthQuadrant++;
             }
-            cout << endl;
         }
-        getline(cin, escape);
-    } while (escape.empty());
+        if (firstQuadrant * secondQuadrant * thirdQuadrant * fourthQuadrant < maxValue) {
+            maxValue = firstQuadrant * secondQuadrant * thirdQuadrant * fourthQuadrant;
+            iter = i + 1;
+        }
+    }
 
+    cout << iter;
     return 0;
 }
