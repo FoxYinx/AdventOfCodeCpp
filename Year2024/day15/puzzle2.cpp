@@ -7,6 +7,7 @@
 using namespace std;
 
 bool mayIUp(int x, int y, const array<array<char, SIZE * 2>, SIZE>& map);
+bool mayIDown(int x, int y, const array<array<char, SIZE * 2>, SIZE>& map);
 void print(const array<array<char, SIZE * 2>, SIZE>& map);
 
 int year2024_day15_puzzle2() {
@@ -116,6 +117,9 @@ int year2024_day15_puzzle2() {
                                 break;
                             }
                             case '[': case ']': {
+                                if (mayIDown(rx, ry - 1, map)) {
+                                    cout << "Je peux aller vers le bas" << endl;
+                                }
                                 break;
                             }
                             default: break;
@@ -182,6 +186,28 @@ bool mayIUp(const int x, const int y, const array<array<char, SIZE * 2>, SIZE>& 
         if (map[y - 1][x - 1] == '#') return false;
         if (map[y - 1][x - 1] == '.') left = true;
         if (map[y - 1][x - 1] == '[' || map[y - 1][x - 1] == ']') left = mayIUp(x - 1, y - 1, map);
+    }
+
+    return left && right;
+}
+
+bool mayIDown(const int x, const int y, const array<array<char, SIZE * 2>, SIZE>& map) {
+    bool left = false;
+    bool right = false;
+    if (map[y][x] == '[') {
+        if (map[y + 1][x] == '#') return false;
+        if (map[y + 1][x] == '.') left = true;
+        if (map[y + 1][x] == '[' || map[y + 1][x] == ']') left = mayIDown(x, y + 1, map);
+        if (map[y + 1][x + 1] == '#') return false;
+        if (map[y + 1][x + 1] == '.') right = true;
+        if (map[y + 1][x + 1] == '[' || map[y + 1][x + 1] == ']') right = mayIDown(x + 1, y + 1, map);
+    } else {
+        if (map[y + 1][x] == '#') return false;
+        if (map[y + 1][x] == '.') right = true;
+        if (map[y + 1][x] == '[' || map[y + 1][x] == ']') right = mayIDown(x, y + 1, map);
+        if (map[y + 1][x - 1] == '#') return false;
+        if (map[y + 1][x - 1] == '.') left = true;
+        if (map[y + 1][x - 1] == '[' || map[y + 1][x - 1] == ']') left = mayIDown(x - 1, y + 1, map);
     }
 
     return left && right;
