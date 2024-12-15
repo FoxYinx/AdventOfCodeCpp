@@ -2,16 +2,18 @@
 #include <iostream>
 #include <array>
 
-#define SIZE 7
+#define SIZE 50
 
 using namespace std;
 
 bool mayIUp(int x, int y, const array<array<char, SIZE * 2>, SIZE>& map);
 bool mayIDown(int x, int y, const array<array<char, SIZE * 2>, SIZE>& map);
+void moveUp(int x, int y, array<array<char, SIZE * 2>, SIZE>& map);
+void moveDown(int x, int y, array<array<char, SIZE * 2>, SIZE>& map);
 void print(const array<array<char, SIZE * 2>, SIZE>& map);
 
 int year2024_day15_puzzle2() {
-    ifstream f("ressources/Year2024/test.txt");
+    ifstream f("ressources/Year2024/day15.txt");
 
     if (!f.is_open()) {
         cerr << "Error opening file" << endl;
@@ -66,7 +68,10 @@ int year2024_day15_puzzle2() {
                             }
                             case '[': case ']': {
                                 if (mayIUp(rx, ry - 1, map)) {
-                                    cout << "Je peux aller vers le haut" << endl;
+                                    moveUp(rx, ry - 1, map);
+                                    map[ry - 1][rx] = '@';
+                                    map[ry][rx] = '.';
+                                    ry--;
                                 }
                                 break;
                             }
@@ -85,9 +90,9 @@ int year2024_day15_puzzle2() {
                             case '[': case ']': {
                                 int nb = 1;
                                 bool flag = false;
-                                for (int j = rx + 1; j <= SIZE; j++) {
+                                for (int j = rx + 1; j <= SIZE * 2; j++) {
                                     switch (map[ry][j + 1]) {
-                                        case 'O': {
+                                        case '[': case ']': {
                                             nb++;
                                             break;
                                         }
@@ -117,8 +122,11 @@ int year2024_day15_puzzle2() {
                                 break;
                             }
                             case '[': case ']': {
-                                if (mayIDown(rx, ry - 1, map)) {
-                                    cout << "Je peux aller vers le bas" << endl;
+                                if (mayIDown(rx, ry + 1, map)) {
+                                    moveDown(rx, ry + 1, map);
+                                    map[ry + 1][rx] = '@';
+                                    map[ry][rx] = '.';
+                                    ry++;
                                 }
                                 break;
                             }
@@ -166,7 +174,51 @@ int year2024_day15_puzzle2() {
         line++;
     }
 
+    int score = 0;
+    for (int y = 0; y < SIZE; y++) {
+        for (int x = 0; x < SIZE * 2; x++) {
+            if (map[y][x] == '[') score += 100 * y + x;
+        }
+    }
+
+    cout << score << endl;
     return 0;
+}
+
+void moveUp(const int x, const int y, array<array<char, SIZE * 2>, SIZE>& map) {
+    if (map[y][x] == '[') {
+        if (map[y - 1][x] == '[' || map[y - 1][x] == ']') moveUp(x, y - 1, map);
+        if (map[y - 1][x + 1] == '[' || map[y - 1][x + 1] == ']') moveUp(x + 1, y - 1, map);
+        map[y - 1][x] = map[y][x];
+        map[y][x] = '.';
+        map[y - 1][x + 1] = map[y][x + 1];
+        map[y][x + 1] = '.';
+    } else {
+        if (map[y - 1][x] == '[' || map[y - 1][x] == ']') moveUp(x, y - 1, map);
+        if (map[y - 1][x - 1] == '[' || map[y - 1][x - 1] == ']') moveUp(x - 1, y - 1, map);
+        map[y - 1][x] = map[y][x];
+        map[y][x] = '.';
+        map[y - 1][x - 1] = map[y][x - 1];
+        map[y][x - 1] = '.';
+    }
+}
+
+void moveDown(const int x, const int y, array<array<char, SIZE * 2>, SIZE>& map) {
+    if (map[y][x] == '[') {
+        if (map[y + 1][x] == '[' || map[y + 1][x] == ']') moveDown(x, y + 1, map);
+        if (map[y + 1][x + 1] == '[' || map[y + 1][x + 1] == ']') moveDown(x + 1, y + 1, map);
+        map[y + 1][x] = map[y][x];
+        map[y][x] = '.';
+        map[y + 1][x + 1] = map[y][x + 1];
+        map[y][x + 1] = '.';
+    } else {
+        if (map[y + 1][x] == '[' || map[y + 1][x] == ']') moveDown(x, y + 1, map);
+        if (map[y + 1][x - 1] == '[' || map[y + 1][x - 1] == ']') moveDown(x - 1, y + 1, map);
+        map[y + 1][x] = map[y][x];
+        map[y][x] = '.';
+        map[y + 1][x - 1] = map[y][x - 1];
+        map[y][x - 1] = '.';
+    }
 }
 
 bool mayIUp(const int x, const int y, const array<array<char, SIZE * 2>, SIZE>& map) {
@@ -211,13 +263,4 @@ bool mayIDown(const int x, const int y, const array<array<char, SIZE * 2>, SIZE>
     }
 
     return left && right;
-}
-
-void print(const array<array<char, SIZE * 2>, SIZE>& map) {
-    for (auto a : map) {
-        for (const auto b : a ) {
-            cout << b;
-        }
-        cout << endl;
-    }
 }
