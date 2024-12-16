@@ -17,7 +17,7 @@ struct Node {
     }
 };
 
-int dijkstraBis(const array<array<char, SIZE>, SIZE>& map);
+int dijkstraBis(const array<array<char, SIZE>, SIZE>& map, array<array<int, SIZE>, SIZE>& dist);
 
 int year2024_day16_puzzle2() {
     ifstream f("ressources/Year2024/test1.txt");
@@ -38,7 +38,12 @@ int year2024_day16_puzzle2() {
         line++;
     }
 
-    int distance = dijkstraBis(map);
+    array<array<int, SIZE>, SIZE> dist = {};
+    for (auto& row : dist) {
+        row.fill(numeric_limits<int>::max());
+    }
+
+    int distance = dijkstraBis(map, dist);
     if (distance == numeric_limits<int>::max()) {
         cerr << "Erreur dans Dijkstra" << endl;
         return -1;
@@ -49,13 +54,8 @@ int year2024_day16_puzzle2() {
     return 0;
 }
 
-int dijkstraBis(const array<array<char, SIZE>, SIZE>& map) {
+int dijkstraBis(const array<array<char, SIZE>, SIZE>& map, array<array<int, SIZE>, SIZE>& dist) {
     constexpr array<tuple<int, int, char>, 4> directions = {{{0, 1, 'd'}, {1, 0, 'r'}, {0, -1, 'u'}, {-1, 0, 'l'}}};
-
-    array<array<int, SIZE>, SIZE> dist = {};
-    for (auto& row : dist) {
-        row.fill(numeric_limits<int>::max());
-    }
 
     priority_queue<Node, vector<Node>, greater<>> pq;
     pq.push({1, SIZE - 2, 0, 'r'});
