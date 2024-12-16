@@ -47,8 +47,7 @@ int year2024_day16_puzzle2() {
         row.fill(numeric_limits<int>::max());
     }
 
-    int distance = dijkstraBis(map, dist);
-    if (distance == numeric_limits<int>::max()) {
+    if (const int distance = dijkstraBis(map, dist); distance == numeric_limits<int>::max()) {
         cerr << "Erreur dans Dijkstra" << endl;
         return -1;
     }
@@ -71,9 +70,11 @@ int dijkstraBis(const array<array<char, SIZE>, SIZE>& map, array<array<int, SIZE
         for (const auto &[dx, dy, dir]: directions) {
             const int nx = node.x + dx;
             const int ny = node.y + dy;
-            if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE && map[ny][nx] != '#' && node.dist + 1001 < dist[ny][nx]) {
-                dist[ny][nx] = node.dir == dir ? node.dist + 1 : node.dist + 1001;
-                pq.push({nx, ny, dist[ny][nx], dir});
+            if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE && map[ny][nx] != '#') {
+                if (const int new_dist = node.dist + (node.dir == dir ? 1 : 1001); new_dist < dist[ny][nx]) {
+                    dist[ny][nx] = new_dist;
+                    pq.push({nx, ny, new_dist, dir});
+                }
             }
         }
     }
@@ -83,17 +84,9 @@ int dijkstraBis(const array<array<char, SIZE>, SIZE>& map, array<array<int, SIZE
 
 int dfs(const int i, const int j, const array<array<int, SIZE>, SIZE>& dist) {
     stack<array<int, 2>> pile;
+    pile.push({j, i});
     array<array<bool, SIZE>, SIZE> marquage = {};
     marquage[j][i] = true;
-
-    for (const auto &[dx, dy, dir]: directions) {
-        const int nx = i + dx;
-        const int ny = j + dy;
-        if (dist[ny][nx] == dist[j][i] - 1 || dist[ny][nx] == dist[j][i] - 1001) {
-            pile.push({ny, nx});
-            marquage[ny][nx] = true;
-        }
-    }
 
     while (!pile.empty()) {
         array<int, 2> node = pile.top();
@@ -104,17 +97,25 @@ int dfs(const int i, const int j, const array<array<int, SIZE>, SIZE>& dist) {
         for (const auto &[dx, dy, dir]: directions) {
             const int nx = x + dx;
             const int ny = y + dy;
-            if (dist[ny][nx] == dist[y][x] - 1 || dist[ny][nx] == dist[y][x] - 1001 || dist[ny][nx] == dist[y][x] + 999) {
+            if (dist[ny][nx] == dist[y][x] - 1 || dist[ny][nx] == dist[y][x] - 1001) {
                 pile.push({ny, nx});
                 marquage[ny][nx] = true;
+            } else if (dist[ny][nx] == dist[y][x] + 999) {
+                const int nnx = x - dx;
+                const int nny = y - dy;
+                if (dist[nny][nnx] == dist[ny][nx] + 2) {
+                    marquage[ny][nx] = true;
+                    marquage[nny][nnx] = true;
+                    pile.push({ny, nx});
+                }
             }
         }
     }
 
     int nb = 0;
-    for (auto row : marquage) {
-        for (const bool value : row) {
-            if (value) nb++;
+    for (int a = 0; a < SIZE; a++) {
+        for (int b = 0; b < SIZE; b++) {
+            if (marquage[a][b]) {nb++;}
         }
     }
     return nb;
