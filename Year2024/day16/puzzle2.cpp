@@ -115,7 +115,7 @@ int dfs(const int i, const int j, const array<array<int, SIZE>, SIZE>& dist) {
     int nb = 0;
     for (int a = 0; a < SIZE; a++) {
         for (int b = 0; b < SIZE; b++) {
-            if (marquage[a][b]) {nb++;}
+            if (marquage[a][b]) nb++;
         }
     }
     return nb;
