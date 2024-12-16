@@ -68,11 +68,8 @@ int dijkstra(const array<array<char, SIZE>, SIZE>& map) {
         for (const auto &[dx, dy, dir]: directions) {
             const int nx = node.x + dx;
             const int ny = node.y + dy;
-            if (nx > 0 && nx < SIZE - 1 && ny > 0 && ny < SIZE - 1 && map[ny][nx] != '#' && node.dist + 1 < dist[ny][nx] && node.dir == dir) {
-                dist[ny][nx] = node.dist + 1;
-                pq.push({nx, ny, dist[ny][nx], dir});
-            } else if (nx > 0 && nx < SIZE - 1 && ny > 0 && ny < SIZE - 1 && map[ny][nx] != '#' && node.dist + 1001 < dist[ny][nx]) {
-                dist[ny][nx] = node.dist + 1001;
+            if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE && map[ny][nx] != '#' && node.dist + 1001 < dist[ny][nx]) {
+                dist[ny][nx] = node.dir == dir ? node.dist + 1 : node.dist + 1001;
                 pq.push({nx, ny, dist[ny][nx], dir});
             }
         }
