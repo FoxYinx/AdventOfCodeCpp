@@ -29,6 +29,7 @@ public:
     void printOutput();
     void increaseA();
     [[nodiscard]] bool verifyIdentity() const;
+    [[nodiscard]] int64_t getInitialA() const;
     void reset();
 };
 #endif /*COMPUTER_H*/

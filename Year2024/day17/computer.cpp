@@ -98,7 +98,9 @@ bool Computer::verifyIdentity() const {
     return output == initialProgram;
 }
 
-
+int64_t Computer::getInitialA() const {
+    return initialRegA;
+}
 
 void Computer::reset() {
     regA = initialRegA;
@@ -106,6 +108,7 @@ void Computer::reset() {
     regC = initialRegC;
     pc = 0;
     program = initialProgram;
+    output = {};
 }
 
 

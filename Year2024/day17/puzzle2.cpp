@@ -31,9 +31,13 @@ int year2024_day17_puzzle2() {
         s = sm.suffix();
     }
 
-    computer.run();
-    computer.increaseA();
-    computer.reset();
+    while (true) {
+        computer.run();
+        if (computer.verifyIdentity()) break;
+        computer.increaseA();
+        computer.reset();
+    }
 
+    cout << computer.getInitialA();
     return 0;
 }
