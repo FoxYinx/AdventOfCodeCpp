@@ -1,18 +1,11 @@
+#include <regex>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
-#include <vector>
+
+#include "computer.h"
 
 using namespace std;
-
-void decodeOpcode(int32_t opcode);
-int64_t operatorCombo(int32_t operand);
-
-int64_t regA = 25986278;
-int64_t regB = 0;
-int64_t regC = 0;
-int32_t pc = 0;
-vector<int32_t> program = {};
 
 int year2024_day17_puzzle1() {
     ifstream f("ressources/Year2024/day17.txt");
@@ -24,67 +17,27 @@ int year2024_day17_puzzle1() {
     cout << "File successfully opened!" << endl;
 
     string s;
-    while (getline(f, s)) {
-        program.push_back(stoi(s));
+    const regex regexp1(R"(Register\s\w:\s(\d+))");
+    const regex regexp2(R"((\d+))");
+    smatch sm;
+
+    int64_t registers[3];
+    for (long long & i : registers) {
+        getline(f, s);
+        regex_search(s, sm, regexp1);
+        i = stoll(sm[1]);
     }
 
-    while (true) {
-        if (pc >= program.size()) break;
+    Computer computer(registers[0], registers[1], registers[2]);
 
-        decodeOpcode(program[pc]);
-        pc += 2;
+    getline(f, s);
+    getline(f, s);
+    while (regex_search(s, sm, regexp2)) {
+        computer.appendProgram(stoi(sm[1]));
+        s = sm.suffix();
     }
-    printf("\b ");
+
+    computer.run();
 
     return 0;
-}
-
-void decodeOpcode(const int32_t opcode) {
-    switch (opcode) {
-        case 0: {
-            regA >>= operatorCombo(program[pc + 1]);
-            break;
-        }
-        case 1: {
-            regB ^= program[pc + 1];
-            break;
-        }
-        case 2: {
-            regB = operatorCombo(program[pc + 1]) % 8;
-            break;
-        }
-        case 3: {
-            if (regA == 0) break;
-            pc = program[pc + 1] - 2;
-            break;
-        }
-        case 4: {
-            regB ^= regC;
-            break;
-        }
-        case 5: {
-            cout << operatorCombo(program[pc + 1]) % 8 << ',';
-            break;
-        }
-        case 6: {
-            regB = regA >> operatorCombo(program[pc + 1]);
-            break;
-        }
-        case 7: {
-            regC = regA >> operatorCombo(program[pc + 1]);
-            break;
-        }
-        default: cerr << "Invalid opcode: " << opcode << endl;
-    }
-}
-
-int64_t operatorCombo(const int32_t operand) {
-    switch (operand) {
-        case 0: case 1: case 2: case 3: return operand;
-        case 4: return regA;
-        case 5: return regB;
-        case 6: return regC;
-        default: cerr << "Invalid operand: " << operand << endl;
-    }
-    return -1;
 }
