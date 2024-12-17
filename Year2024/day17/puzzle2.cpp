@@ -7,7 +7,7 @@
 using namespace std;
 
 int year2024_day17_puzzle2() {
-    ifstream f("ressources/Year2024/testCopy.txt");
+    ifstream f("ressources/Year2024/day17.txt");
 
     if (!f.is_open()) {
         cerr << "Error opening file" << endl;
