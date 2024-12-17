@@ -11,6 +11,7 @@ class Computer {
     int64_t regC = 0;
     int32_t pc = 0;
     vector<int32_t> program = {};
+    vector<int32_t> output = {};
 
     int64_t initialRegA = 0;
     int64_t initialRegB = 0;
@@ -25,6 +26,9 @@ public:
     void setProgram(const vector<int32_t>& p);
     void appendProgram(int32_t value);
     void run();
+    void printOutput();
+    void increaseA();
+    [[nodiscard]] bool verifyIdentity() const;
     void reset();
 };
 #endif /*COMPUTER_H*/

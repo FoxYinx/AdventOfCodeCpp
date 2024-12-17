@@ -38,6 +38,7 @@ int year2024_day17_puzzle1() {
     }
 
     computer.run();
+    computer.printOutput();
 
     return 0;
 }

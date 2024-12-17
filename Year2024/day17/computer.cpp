@@ -37,7 +37,7 @@ void Computer::decodeOpcode(const int32_t opcode) {
             break;
         }
         case 5: {
-            cout << operatorCombo(program[pc + 1]) % 8 << ',';
+            output.push_back(operatorCombo(program[pc + 1]) % 8);
             break;
         }
         case 6: {
@@ -73,7 +73,6 @@ void Computer::appendProgram(const int32_t value) {
     program.push_back(value);
 }
 
-
 void Computer::run() {
     while (true) {
         if (pc >= program.size()) break;
@@ -81,8 +80,24 @@ void Computer::run() {
         decodeOpcode(program[pc]);
         pc += 2;
     }
-    printf("\b ");
 }
+
+void Computer::printOutput() {
+    for (const auto & value : output) {
+        cout << value << ',';
+    }
+    printf("\b ");
+    cout << endl;
+}
+
+void Computer::increaseA() {
+    initialRegA++;
+}
+
+bool Computer::verifyIdentity() const {
+    return output == initialProgram;
+}
+
 
 
 void Computer::reset() {
