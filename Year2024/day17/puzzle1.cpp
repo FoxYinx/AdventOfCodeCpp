@@ -22,7 +22,7 @@ int year2024_day17_puzzle1() {
     smatch sm;
 
     int64_t registers[3];
-    for (long long & i : registers) {
+    for (int64_t &i : registers) {
         getline(f, s);
         regex_search(s, sm, regexp1);
         i = stoll(sm[1]);

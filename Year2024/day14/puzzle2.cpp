@@ -2,6 +2,7 @@
 #include <iostream>
 #include <regex>
 #include <vector>
+#include <climits>
 #include "utils.h"
 
 #define WIDTH 101
