@@ -70,7 +70,7 @@ int findCheats(const array<array<int, SIZE>, SIZE>& distances, const int startX,
             const int nnx = x + dx * 2;
             const int nny = y + dy * 2;
             if (nnx >= 0 && nnx < SIZE && nny >= 0 && nny < SIZE) {
-                if (distances[nny][nnx] != INT_MAX && distances[nny][nnx] - distances[y][x] - 2 >= 100 && distances[ny][nx] == INT_MAX) possibleCheats++;
+                if (distances[nny][nnx] != INT_MAX && distances[nny][nnx] - distances[y][x] - 2 >= 100) possibleCheats++;
             }
         }
     }
