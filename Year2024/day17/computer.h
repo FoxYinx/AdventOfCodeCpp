@@ -18,7 +18,10 @@ class Computer {
     int64_t initialRegC = 0;
     vector<int32_t> initialProgram = {};
 
+    int64_t copyValue = INT64_MAX;
+
 public:
+    Computer();
     Computer(int64_t a, int64_t b, int64_t c);
 
     void decodeOpcode(int32_t opcode);
@@ -30,6 +33,11 @@ public:
     void increaseA();
     [[nodiscard]] bool verifyIdentity() const;
     [[nodiscard]] int64_t getInitialA() const;
+    void setInitialA(int64_t a);
+    [[nodiscard]] vector<int32_t> getProgram() const;
+    [[nodiscard]] vector<int32_t> getOutput() const;
+    [[nodiscard]] bool verifyOutput(unsigned long long length);
+    [[nodiscard]] int64_t getCopyValue() const;
     void reset();
 };
 #endif /*COMPUTER_H*/

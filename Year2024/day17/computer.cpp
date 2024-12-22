@@ -4,6 +4,15 @@
 
 using namespace std;
 
+Computer::Computer() {
+    regA = 0;
+    initialRegA = 0;
+    regB = 0;
+    initialRegB = 0;
+    regC = 0;
+    initialRegC = 0;
+}
+
 Computer::Computer(const int64_t a, const int64_t b, const int64_t c) {
     regA = a;
     initialRegA = a;
@@ -101,6 +110,37 @@ bool Computer::verifyIdentity() const {
 int64_t Computer::getInitialA() const {
     return initialRegA;
 }
+
+void Computer::setInitialA(const int64_t a) {
+    initialRegA = a;
+    regA = a;
+}
+
+vector<int32_t> Computer::getProgram() const {
+    return program;
+}
+
+vector<int32_t> Computer::getOutput() const {
+    return output;
+}
+
+bool Computer::verifyOutput(const unsigned long long length) {
+    if (output.empty()) return false;
+    if (output.size() < length) return false;
+    bool flag = true;
+    for (int i = 0; i < length; i++) {
+        if (program[program.size() - 1 - i] != output[output.size() - 1 - i]) flag = false;
+    }
+    if (flag && output.size() == program.size() && initialRegA < copyValue) {
+        copyValue = initialRegA;
+    }
+    return flag;
+}
+
+int64_t Computer::getCopyValue() const {
+    return copyValue;
+}
+
 
 void Computer::reset() {
     regA = initialRegA;
