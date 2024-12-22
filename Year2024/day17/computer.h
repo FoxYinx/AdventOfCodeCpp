@@ -26,16 +26,10 @@ public:
 
     void decodeOpcode(int32_t opcode);
     [[nodiscard]] int64_t operatorCombo(int32_t operand) const;
-    void setProgram(const vector<int32_t>& p);
     void appendProgram(int32_t value);
     void run();
     void printOutput();
-    void increaseA();
-    [[nodiscard]] bool verifyIdentity() const;
-    [[nodiscard]] int64_t getInitialA() const;
     void setInitialA(int64_t a);
-    [[nodiscard]] vector<int32_t> getProgram() const;
-    [[nodiscard]] vector<int32_t> getOutput() const;
     [[nodiscard]] bool verifyOutput(unsigned long long length);
     [[nodiscard]] int64_t getCopyValue() const;
     void reset();

@@ -72,11 +72,6 @@ int64_t Computer::operatorCombo(const int32_t operand) const {
     return -1;
 }
 
-void Computer::setProgram(const vector<int32_t>& p) {
-    initialProgram = p;
-    program = p;
-}
-
 void Computer::appendProgram(const int32_t value) {
     initialProgram.push_back(value);
     program.push_back(value);
@@ -99,29 +94,9 @@ void Computer::printOutput() {
     cout << endl;
 }
 
-void Computer::increaseA() {
-    initialRegA++;
-}
-
-bool Computer::verifyIdentity() const {
-    return output == initialProgram;
-}
-
-int64_t Computer::getInitialA() const {
-    return initialRegA;
-}
-
 void Computer::setInitialA(const int64_t a) {
     initialRegA = a;
     regA = a;
-}
-
-vector<int32_t> Computer::getProgram() const {
-    return program;
-}
-
-vector<int32_t> Computer::getOutput() const {
-    return output;
 }
 
 bool Computer::verifyOutput(const unsigned long long length) {
@@ -140,7 +115,6 @@ bool Computer::verifyOutput(const unsigned long long length) {
 int64_t Computer::getCopyValue() const {
     return copyValue;
 }
-
 
 void Computer::reset() {
     regA = initialRegA;
