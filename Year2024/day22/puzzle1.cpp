@@ -30,14 +30,8 @@ int year2024_day22_puzzle1() {
 }
 
 uint64_t deriveSecret(unsigned long long secret) {
-    const uint64_t mul64 = secret << 6;
-    secret ^= mul64;
-    secret %= 16777216;
-    const uint64_t div32 = secret >> 5;
-    secret ^= div32;
-    secret %= 16777216;
-    const uint64_t game = secret << 11;
-    secret ^= game;
-    secret %= 16777216;
+    secret = (secret ^ secret << 6) & 0xFFFFFF;
+    secret = (secret ^ secret >> 5) & 0xFFFFFF;
+    secret = (secret ^ secret << 11) & 0xFFFFFF;
     return secret;
 }
