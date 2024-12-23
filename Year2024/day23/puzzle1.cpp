@@ -3,11 +3,9 @@
 #include <map>
 #include <regex>
 #include <vector>
+#include "utils.h"
 
 using namespace std;
-
-bool contains(const vector<string>& vec, const string &value);
-bool contains(const vector<int>& vec, int value);
 
 int year2024_day23_puzzle1() {
     ifstream f("ressources/Year2024/day23.txt");
@@ -49,8 +47,4 @@ int year2024_day23_puzzle1() {
 
     cout << possibilities << endl;
     return 0;
-}
-
-bool contains(const vector<string>& vec, const string &value) {
-    return ranges::find(vec, value) != vec.end();
 }
