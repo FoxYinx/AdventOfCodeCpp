@@ -1,7 +1,7 @@
-#include <regex>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <regex>
 #include <vector>
 
 using namespace std;
@@ -41,7 +41,7 @@ int year2024_day23_puzzle1() {
         }
     }
 
-    const regex regexp2(R"((t[^t,\s]))");
+    const regex regexp2(R"((^t|,t))");
     int possibilities = 0;
     for (const string& computers : tuples) {
         if (regex_search(computers, sm, regexp2)) possibilities++;
