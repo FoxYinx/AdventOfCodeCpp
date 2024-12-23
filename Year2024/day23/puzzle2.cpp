@@ -38,7 +38,7 @@ int year2024_day23_puzzle2() {
 
     bronKerbosch(R, keys, X, biggest, links);
 
-    for (size_t i = 0; i < biggest.size(); ++i) {
+    for (size_t i = 0; i < biggest.size(); i++) {
         cout << biggest[i];
         if (i != biggest.size() - 1) {
             cout << ",";
