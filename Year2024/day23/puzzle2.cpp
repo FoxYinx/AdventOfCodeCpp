@@ -51,8 +51,15 @@ void bronKerbosch(const vector<string>& R, vector<string> P, vector<string> X, v
     if (P.empty() && X.empty()) {
         if (R.size() > biggest.size()) biggest = R;
     } else {
-        for (vector PP = P; const string& v : PP) {
-            vector Rv = R;
+        const string u = !P.empty() ? P.front() : X.front();
+        vector<string> P_without_neighbors;
+        for (const string& v : P) {
+            if (ranges::find(links.at(u), v) == links.at(u).end()) {
+                P_without_neighbors.push_back(v);
+            }
+        }
+        for (const string& v : P_without_neighbors) {
+            vector<string> Rv = R;
             Rv.push_back(v);
             vector<string> PnV;
             for (const string& v2 : P) {
@@ -62,10 +69,9 @@ void bronKerbosch(const vector<string>& R, vector<string> P, vector<string> X, v
             for (const string& v2 : X) {
                 if (contains(links.at(v), v2)) XnV.push_back(v2);
             }
-            bronKerbosch(Rv, PnV, XnV,biggest, links);
-
-            X.push_back(P.front());
-            P.erase(P.begin());
+            bronKerbosch(Rv, PnV, XnV, biggest, links);
+            erase(P, v);
+            X.push_back(v);
         }
     }
 }
