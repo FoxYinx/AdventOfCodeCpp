@@ -1,14 +1,17 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <ranges>
 #include <regex>
 #include <vector>
 #include "utils.h"
 
 using namespace std;
 
+void bronKerbosch(const vector<string>& R, vector<string> P, vector<string> X, vector<string>& biggest, const map<string, vector<string>>& links);
+
 int year2024_day23_puzzle2() {
-    ifstream f("ressources/Year2024/test.txt");
+    ifstream f("ressources/Year2024/day23.txt");
 
     if (!f.is_open()) {
         cerr << "Error opening file" << endl;
@@ -27,18 +30,42 @@ int year2024_day23_puzzle2() {
             s = sm.suffix();
         }
     }
-    string password;
 
-    for (const auto &[key, value] : links) {
-        for (int i = 0; i < value.size() - 1; i++) {
-            if (value[i] > key) {
-                for (int j = 0; j < value.size(); j++) {
-                    if (links[value[i]][j] > value[i] && contains(links[key], links[value[i]][j])) password = key + "," + value[i] + "," + links[value[i]][j];
-                }
-            }
+    vector<string> R;
+    vector keys(ranges::begin(links | views::keys), ranges::end(links | views::keys));
+    vector<string> X;
+    vector<string> biggest;
+
+    bronKerbosch(R, keys, X, biggest, links);
+
+    for (size_t i = 0; i < biggest.size(); ++i) {
+        cout << biggest[i];
+        if (i != biggest.size() - 1) {
+            cout << ",";
         }
     }
-
-    cout << password << endl;
     return 0;
+}
+
+void bronKerbosch(const vector<string>& R, vector<string> P, vector<string> X, vector<string>& biggest, const map<string, vector<string>>& links) {
+    if (P.empty() && X.empty()) {
+        if (R.size() > biggest.size()) biggest = R;
+    } else {
+        for (vector PP = P; const string& v : PP) {
+            vector Rv = R;
+            Rv.push_back(v);
+            vector<string> PnV;
+            for (const string& v2 : P) {
+                if (contains(links.at(v), v2)) PnV.push_back(v2);
+            }
+            vector<string> XnV;
+            for (const string& v2 : X) {
+                if (contains(links.at(v), v2)) XnV.push_back(v2);
+            }
+            bronKerbosch(Rv, PnV, XnV,biggest, links);
+
+            X.push_back(P.front());
+            P.erase(P.begin());
+        }
+    }
 }
