@@ -1,8 +1,9 @@
 #include "robots.h"
 
 #include <algorithm>
-#include <stack>
 #include <iostream>
+#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -36,22 +37,22 @@ vector<vector<uint8_t>> findShortestPaths(const array<array<uint8_t, 3>, N>& key
         }
     }
 
-    vector<array<uint64_t, 3>> dists(keypad.size(), array{UINT64_MAX, UINT64_MAX, UINT64_MAX});
-    stack<array<int32_t, 3>> queue;
-    queue.push({start[0], start[1], 0});
+    vector dists(N, vector(3, UINT64_MAX));
+    queue<array<int32_t, 3>> file;
+    file.push({start[0], start[1], 0});
 
-    while (!queue.empty()) {
-        const int32_t x = queue.top()[0];
-        const int32_t y = queue.top()[1];
-        const int32_t steps = queue.top()[2];
+    while (!file.empty()) {
+        const int32_t x = file.front()[0];
+        const int32_t y = file.front()[1];
+        const int32_t steps = file.front()[2];
         dists[y][x] = steps;
-        queue.pop();
+        file.pop();
 
         for (const auto &[dx, dy] : directions) {
             int32_t nx = x + dx;
             int32_t ny = y + dy;
             if (nx >= 0 && ny >= 0 && nx < 3 && ny < keypad.size() && keypad[ny][nx] != ' ' && dists[ny][nx] == UINT64_MAX) {
-                queue.push({nx, ny, steps + 1});
+                file.push({nx, ny, steps + 1});
             }
         }
     }
@@ -74,7 +75,7 @@ vector<vector<uint8_t>> findShortestPaths(const array<array<uint8_t, 3>, N>& key
         for (const auto &[dx, dy] : directions) {
             int32_t nx = x + dx;
             int32_t ny = y + dy;
-            if (nx >= 0 && nx < 3 && ny >=0 && ny < keypad.size() && dists[ny][nx] < dists[y][x]) {
+            if (nx >= 0 && ny >= 0 && nx < 3 && ny < keypad.size() && dists[ny][nx] < dists[y][x]) {
                 uint8_t c = 0;
                 switch (iteration) {
                     case 0: c = '<'; break;
@@ -83,11 +84,11 @@ vector<vector<uint8_t>> findShortestPaths(const array<array<uint8_t, 3>, N>& key
                     case 3: c = 'v'; break;
                     default: cerr << "Error in findShortestPaths" << endl;
                 }
-                iteration++;
                 vector newPath = {c};
                 newPath.insert(newPath.end(), path.begin(), path.end());
                 stack.emplace(nx, ny, newPath);
             }
+            iteration++;
         }
     }
 
