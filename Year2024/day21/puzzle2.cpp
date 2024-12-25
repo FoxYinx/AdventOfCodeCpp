@@ -1,5 +1,10 @@
+#include <regex>
 #include <fstream>
 #include <iostream>
+
+#include "robots.h"
+
+#define MAX_DEPTH 25
 
 using namespace std;
 
@@ -13,9 +18,19 @@ int year2024_day21_puzzle2() {
     cout << "File successfully opened!" << endl;
 
     string s;
+    const regex regexp(R"((\d+))");
+    smatch sm;
+    uint64_t total = 0;
     while (getline(f, s)) {
-
+        vector<uint8_t> line(s.begin(), s.end());
+        const uint64_t len = findShortestSequence<4>(line, MAX_DEPTH, true);
+        if (regex_search(s, sm, regexp)) {
+            total += len * stoi(sm[1]);
+        } else {
+            cerr << "Regex error!" << endl;
+        }
     }
 
+    cout << total << endl;
     return 0;
 }
