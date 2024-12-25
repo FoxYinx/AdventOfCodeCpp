@@ -25,6 +25,7 @@ int year2024_day21_puzzle1() {
         vector<uint8_t> line(s.begin(), s.end());
         const uint64_t len = findShortestSequence<4>(line, MAX_DEPTH, true);
         if (regex_search(s, sm, regexp)) {
+            cout << sm[1] << " got len " << len << endl;
             total += len * stoi(sm[1]);
         } else {
             cerr << "Regex error!" << endl;
