@@ -4,15 +4,16 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <utility>
 
 using namespace std;
 
 struct StackElement {
     int x;
     int y;
-    std::vector<uint8_t> path;
+    vector<uint8_t> path;
 
-    StackElement(const int x, const int y, std::vector<uint8_t> path)
+    StackElement(const int x, const int y, vector<uint8_t> path)
         : x(x), y(y), path(std::move(path)) {}
 };
 
@@ -96,7 +97,10 @@ vector<vector<uint8_t>> findShortestPaths(const array<array<uint8_t, 3>, N>& key
 }
 
 template<size_t N>
-uint64_t findShortestSequence(const vector<uint8_t> &s, const uint8_t depth, const bool highest) {
+uint64_t findShortestSequence(const vector<uint8_t> &s, const uint8_t depth, const bool highest, map<MapKey, uint64_t>& cache) {
+    const MapKey cacheKey(s, depth);
+    if (cache.contains(cacheKey)) return cache[cacheKey];
+
     uint8_t cursor = 'A';
     uint64_t result = 0;
     for (auto& c : s) {
@@ -108,8 +112,8 @@ uint64_t findShortestSequence(const vector<uint8_t> &s, const uint8_t depth, con
         } else {
             vector<uint64_t> path_lengths(paths.size());
             transform(paths.begin(), paths.end(), path_lengths.begin(),
-                [depth](const vector<uint8_t>& p) {
-                    return findShortestSequence<2>(p, depth - 1, false);
+                [depth, &cache](const vector<uint8_t>& p) {
+                    return findShortestSequence<2>(p, depth - 1, false, cache);
                 });
             result += *ranges::min_element(path_lengths);
         }
@@ -117,10 +121,11 @@ uint64_t findShortestSequence(const vector<uint8_t> &s, const uint8_t depth, con
         cursor = c;
     }
 
+    cache[cacheKey] = result;
     return result;
 }
 
 template vector<vector<uint8_t>> findShortestPaths<4>(const array<array<uint8_t, 3>, 4>& keypad, uint8_t from, uint8_t to);
 template vector<vector<uint8_t>> findShortestPaths<2>(const array<array<uint8_t, 3>, 2>& keypad, uint8_t from, uint8_t to);
-template uint64_t findShortestSequence<4>(const vector<uint8_t>& s, uint8_t depth, bool highest);
-template uint64_t findShortestSequence<2>(const vector<uint8_t>& s, uint8_t depth, bool highest);
+template uint64_t findShortestSequence<4>(const vector<uint8_t>& s, uint8_t depth, bool highest, map<MapKey, uint64_t>& cache);
+template uint64_t findShortestSequence<2>(const vector<uint8_t>& s, uint8_t depth, bool highest, map<MapKey, uint64_t>& cache);

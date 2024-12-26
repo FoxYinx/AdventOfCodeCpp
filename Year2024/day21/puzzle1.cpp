@@ -1,6 +1,7 @@
 #include <regex>
 #include <fstream>
 #include <iostream>
+#include <map>
 
 #include "robots.h"
 
@@ -21,9 +22,10 @@ int year2024_day21_puzzle1() {
     const regex regexp(R"((\d+))");
     smatch sm;
     uint64_t total = 0;
+    map<MapKey, uint64_t> cache = {};
     while (getline(f, s)) {
         vector<uint8_t> line(s.begin(), s.end());
-        const uint64_t len = findShortestSequence<4>(line, MAX_DEPTH, true);
+        const uint64_t len = findShortestSequence<4>(line, MAX_DEPTH, true, cache);
         if (regex_search(s, sm, regexp)) {
             cout << sm[1] << " got len " << len << endl;
             total += len * stoi(sm[1]);
